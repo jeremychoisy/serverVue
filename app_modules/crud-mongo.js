@@ -1,18 +1,12 @@
-var MongoClient = require('mongodb').MongoClient;
-var ObjectId = require('mongodb').ObjectID;
+const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectID;
 
-var assert = require('assert');
-//var url = 'mongodb://localhost:27017/test';
-
-// Connection URL
-const url = 'mongodb://localhost:27017';
-
-// Database Name
-const dbName = 'test';
+const assert = require('assert');
+const mongoDBConfig = require('../config/db').mongoDBConfig;
 
 exports.connexionMongo = function(callback) {
-	MongoClient.connect(url, function(err, client) {
-		var db = client.db(dbName);
+	MongoClient.connect(mongoDBConfig.url, function(err, client) {
+		const db = client.db(mongoDBConfig.dbName);
 		
 		assert.equal(null, err);
 		callback(err, db);
@@ -20,10 +14,8 @@ exports.connexionMongo = function(callback) {
 }
 
 exports.countRestaurants = function(name,callback) {
-    MongoClient.connect(url, function(err, client) {
-        var db = client.db(dbName);
-
-        console.log("db " + db)
+    MongoClient.connect(mongoDBConfig.url, function(err, client) {
+        const db = client.db(mongoDBConfig.dbName);
         if(!err){
         	if(name==''){
                 db.collection('restaurants')
@@ -44,11 +36,9 @@ exports.countRestaurants = function(name,callback) {
 };
 
 exports.findRestaurants = function(page, pagesize, name, callback) {
-    MongoClient.connect(url, function(err, client) {
+    MongoClient.connect(mongoDBConfig.url, function(err, client) {
+			const db = client.db(mongoDBConfig.dbName);
 
-			var db = client.db(dbName);
-
-			console.log("db " + db)
         if(!err){
 			if(name == ''){
                 db.collection('restaurants')
@@ -86,8 +76,8 @@ exports.findRestaurants = function(page, pagesize, name, callback) {
 };
 
 exports.findRestaurantById = function(id, callback) {
-    MongoClient.connect(url, function(err, client) {
-		var db = client.db(dbName);
+    MongoClient.connect(mongoDBConfig.url, function(err, client) {
+		const db = client.db(mongoDBConfig.dbName);
         if(!err) {
         	// La requete mongoDB
 
@@ -128,8 +118,8 @@ exports.findRestaurantById = function(id, callback) {
 }
 
 exports.createRestaurant = function(formData, callback) {
-	MongoClient.connect(url, function(err, client) {
-		var db = client.db(dbName);
+	MongoClient.connect(mongoDBConfig.url, function(err, client) {
+		const db = client.db(mongoDBConfig.dbName);
 
 	    if(!err) {
 	 
@@ -173,8 +163,8 @@ exports.createRestaurant = function(formData, callback) {
 
 exports.updateRestaurant = function(id, formData, callback) {
 
-	MongoClient.connect(url, function(err, client) {
-		var db = client.db(dbName);
+	MongoClient.connect(mongoDBConfig.url, function(err, client) {
+		const db = client.db(mongoDBConfig.dbName);
 
 		if(!err) {
             let myquery = { "_id": ObjectId(id)};
@@ -214,8 +204,8 @@ exports.updateRestaurant = function(id, formData, callback) {
 }
 
 exports.deleteRestaurant = function(id, callback) {
-	MongoClient.connect(url, function(err, client) {
-		var db = client.db(dbName);
+	MongoClient.connect(mongoDBConfig.url, function(err, client) {
+		var db = client.db(mongoDBConfig.dbName);
 
 		if(!err) {
             let myquery = { "_id": ObjectId(id)};

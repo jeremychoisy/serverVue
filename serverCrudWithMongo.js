@@ -3,16 +3,13 @@ const app      = express();
 const port     = process.env.PORT || 8080;
 const server   = require('http').Server(app);
 // pour les formulaires multiparts
-var multer = require('multer');
-var multerData = multer();
+const multer = require('multer');
+const multerData = multer();
 
 const mongoDBModule = require('./app_modules/crud-mongo');
 
 // Pour les formulaires standards
 const bodyParser = require('body-parser');
-// pour les formulaires multiparts
-var multer = require('multer');
-var multerData = multer();
 
 // Cette ligne indique le répertoire qui contient
 // les fichiers statiques: html, css, js, images etc.
@@ -88,7 +85,7 @@ app.get('/api/restaurants/count', function(req, res) {
     let name = req.query.name || '';
 
     mongoDBModule.countRestaurants(name, function(data) {
-        var objdData = {
+        const objdData = {
             msg:"restaurants count",
             data: data
         }
@@ -102,7 +99,7 @@ app.get('/api/restaurants/count', function(req, res) {
 // page = no de la page
 // Oui, on va faire de la pagination, pour afficher
 // par exemple les restaurants 10 par 10
-app.get('/api/restaurants', function(req, res) { 
+app.get('/api/restaurants', function(req, res) {
 	// Si présent on prend la valeur du param, sinon 1
     let page = parseInt(req.query.page || 1);
     // idem si present on prend la valeur, sinon 10
@@ -112,7 +109,7 @@ app.get('/api/restaurants', function(req, res) {
 
 
  	mongoDBModule.findRestaurants(page, pagesize, name, function(data,count) {
- 		var objdData = {
+ 		const objdData = {
  			msg:"restaurant recherchés avec succès",
  			data: data,
 			count:count
@@ -123,7 +120,7 @@ app.get('/api/restaurants', function(req, res) {
 
 // Récupération d'un seul restaurant par son id
 app.get('/api/restaurants/:id', function(req, res) {
-	var id = req.params.id;
+	const id = req.params.id;
 
  	mongoDBModule.findRestaurantById(id, function(data) {
  		res.send(JSON.stringify(data)); 
@@ -148,7 +145,7 @@ app.post('/api/restaurants', multerData.fields([]), function(req, res) {
 // Modification d'un restaurant, on fera l'update par
 // une requête http PUT, c'est le standard REST
 app.put('/api/restaurants/:id', multerData.fields([]), function(req, res) {
-	var id = req.params.id;
+	const id = req.params.id;
 
  	mongoDBModule.updateRestaurant(id, req.body, function(data) {
  		res.send(JSON.stringify(data)); 
@@ -159,7 +156,7 @@ app.put('/api/restaurants/:id', multerData.fields([]), function(req, res) {
 // On fera la suppression par une requête http DELETE
 // c'est le standard REST
 app.delete('/api/restaurants/:id', function(req, res) {
-	var id = req.params.id;
+	const id = req.params.id;
 
  	mongoDBModule.deleteRestaurant(id, function(data) {
  		res.send(JSON.stringify(data)); 

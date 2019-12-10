@@ -202,7 +202,7 @@ function afficheRestaurantsEnTable(restaurants) {
     let table = document.createElement("table");
 
     // Je cree une ligne
-    for(var i=0; i < restaurants.length; i++) {
+    for(const i=0; i < restaurants.length; i++) {
         let ligne = table.insertRow();
         ligne.id = "restaurant" + i;
 
@@ -238,7 +238,7 @@ function afficheRestaurantsEnTable(restaurants) {
 }
 
 function supprimerRestaurant(event) {
-    var id = event.target.id;
+    const id = event.target.id;
     console.log("on supprime le restaurant id=" + id);
 
     envoieRequeteFetchDelete(id)
@@ -266,7 +266,7 @@ function modifierRestaurant(noLigne) {
 }
 
 // donnees de test
-var donneeServeur = {
+const donneeServeur = {
     "msg":"restaurant recherchés avec succès",
     "data":[
         {
