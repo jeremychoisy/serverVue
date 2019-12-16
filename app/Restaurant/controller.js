@@ -22,18 +22,14 @@ exports.getListOfRestaurants = async (req, res) => {
         }
         const page = req.query.page || 1;
         const pageSize = req.query.pagesize || 10;
-        const totalCount = await Restaurant.countDocuments();
         const resultsCount = await Restaurant.countDocuments(query);
-        const next = (pageSize * page) < resultsCount;
         const restaurants = await Restaurant.find(query)
             .sort({name: 1})
             .skip((page - 1) * pageSize)
             .limit(parseInt(pageSize));
         res.status(200).json({
             restaurants: restaurants,
-            totalCount: totalCount,
-            resultsCount: resultsCount,
-            next: next
+            count: resultsCount
         });
     } catch ( err ){
         res.status(500).json({
