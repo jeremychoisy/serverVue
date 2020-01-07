@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const mongoDBConfig = require('./config/db').mongoDBConfig;
+const passport = require('passport');
 const morgan = require('morgan');
 
 
@@ -9,6 +10,8 @@ const morgan = require('morgan');
 require('./app/Cart/model');
 require('./app/Restaurant/model');
 require('./app/User/model');
+
+require('./passport-auth');
 
 
 mongoose.set('useFindAndModify', false);
@@ -21,6 +24,7 @@ const port = 5000;
 server.use(bodyParser.urlencoded({extended: false}));
 server.use(bodyParser.json());
 server.use(morgan("dev"));
+server.use(passport.initialize());
 
 server.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -32,6 +36,7 @@ server.use(function (req, res, next) {
 
 server.use('/restaurant-pictures', express.static(__dirname + '/public/pictures/restaurant-pictures'));
 server.use('/dish-pictures', express.static(__dirname + '/public/pictures/dish-pictures'));
+server.use('/r-project', express.static(__dirname + '/public/r-project'));
 
 mongoose.Promise = global.Promise;
  mongoose.connect(mongoDBConfig.url, {

@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     creationDate: {type: Date, default: Date.now},
     email: {type: String, required: true},
     orders: [{type: mongoose.Schema.Types.ObjectId, ref: 'Cart'}],
+    rank: {type: String, enum: ['admin','user'], default: 'user'}
 });
 
 module.exports = mongoose.model('User', userSchema);

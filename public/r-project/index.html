@@ -1,0 +1,237 @@
+<h1>Rapport - Projet R - CHOISY - DA SILVA GONCALVES - SOUMRANY</h1>
+
+<blockquote>
+    <h2>1. Descriptif du sujet</h2>
+
+    <blockquote>
+        <h3>Évolution de la température en France (3.2.2)</h3>
+    </blockquote>
+</blockquote>
+
+<p>On voudrait étudier l'évolution de la température atmosphérique sur le territoire français.
+    <br>Le problème est que les données historiques de Météo France sont payantes (200000 €/an).
+    <br>On se contentera donc d’utiliser les quelques données publiques qu’on trouve ici pour arriver à nos fins.
+    <br>On a donc choisi 5 villes et on a considéré les variables statistiques suivantes :</p>
+
+<ul>
+    <li>température minimale sur 12h</li>
+
+    <li>température maximale sur 12h (suite à l'absence totale de données pour la température maximale sur 24h)</li>
+</ul>
+
+<p>1)  Découpez les données en deux parties : avant 2019 et courant 2019.
+    <br>Utilisez les données de 2019 pour vérifier s’il y a eu un changement significatif des valeurs de température par rapport au passé.</p>
+
+<p>2)  Répétez les tests précédents en découpant les données autrement : avant 2015 et courant 2019.
+    <br>Que remarquez vous?</p>
+
+<p>3)  Essayez de comprendre à présent si le réchauffement (ou pas) est présent aussi bien en zone rurale que
+    dans les grands villes.
+    <br>Pour avoir le classement des villes en zones rurales on utilisera les données sur les
+    Zones de Revitalisation Rurale.</p>
+
+<blockquote>
+    <h2>2. Description des données utilisées</h2>
+</blockquote>
+
+<p>Le jeu de données utilisé est au format CSV et encodé en UTF-8 <a href="https://public.opendatasoft.com/explore/dataset/donnees-synop-essentielles-omm/export/?dataChart=eyJxdWVyaWVzIjpbeyJjaGFydHMiOlt7InR5cGUiOiJsaW5lIiwiZnVuYyI6IkFWRyIsInlBeGlzIjoiZGQiLCJzY2llbnRpZmljRGlzcGxheSI6dHJ1ZSwiY29sb3IiOiIjRkY1MTVBIn1dLCJ4QXhpcyI6ImRhdGUiLCJtYXhwb2ludHMiOiIiLCJ0aW1lc2NhbGUiOiJ5ZWFyIiwic29ydCI6IiIsImNvbmZpZyI6eyJkYXRhc2V0IjoiZG9ubmVlcy1zeW5vcC1lc3NlbnRpZWxsZXMtb21tIiwib3B0aW9ucyI6e319fV0sImRpc3BsYXlMZWdlbmQiOnRydWUsImFsaWduTW9udGgiOnRydWV9&amp;sort=date">ici</a>. </p>
+
+<p>Données d'observations issues des messages internationaux d’observation en surface (SYNOP) circulant sur le système mondial de télécommunication (SMT) de l’Organisation Météorologique Mondiale (OMM). Ces données sont produites par Météo France.</p>
+
+<p>Paramètres atmosphériques mesurés (température, humidité, direction et force du vent,pression atmosphérique, hauteur de précipitations) ou observés (temps sensible, description des nuages, visibilité) depuis la surface terrestre.</p>
+
+<p>Selon instrumentation et spécificités locales, d'autres paramètres peuvent être disponibles (hauteur de neige, état du sol, etc.)</p>
+
+<blockquote>
+    <blockquote>
+        <h3>2.2 Colonnes pertinentes du jeu de données</h3>
+    </blockquote>
+</blockquote>
+
+<ul>
+    <li><p><strong>Date</strong> <em>(colonne n°2)</em> :
+        <br>date de l'enregistrement, de type datetime yyyy-MM-dd'T'HH:mm:ss'Z' <em>(ex : 2018-08-08T11:00:00+02:00)</em>.</p></li>
+
+    <li><p><strong>Température minimale sur 12 heures</strong> <em>(colonne n°25)</em> :
+        <br>température minimale sur 12 heures le jour de l'enregistrement en Kelvin, de type texte.</p></li>
+
+    <li><p><strong>Température maximale sur 12 heures</strong> <em>(colonne n°27)</em> :
+        <br>température maximale sur 12 heures le jour de l'enregistrement en Kelvin, de type texte.</p></li>
+
+    <li><p><strong>Nom</strong> <em>(colonne n°61)</em> :
+        <br>nom de la ville de l'enregistrement, de type texte.</p></li>
+</ul>
+
+<blockquote>
+    <blockquote>
+        <h3>2.3 Période du jeu de données</h3>
+    </blockquote>
+</blockquote>
+
+<p>Le présent jeu de données possède les enregistrements à partir de l'année 2010 jusqu'à 2020.
+    <br>Toutes les années entre 2010 et 2020 inclus sont enregistrées.</p>
+
+<blockquote>
+    <h2>3 Méthodologie suivie</h2>
+
+    <blockquote>
+        <h3>3.1 Pré-traitement des données</h3>
+
+        <blockquote>
+            <h4>3.1.1 Échantillon de villes</h4>
+        </blockquote>
+    </blockquote>
+</blockquote>
+
+<p>Les 5 villes choisies pour l'analyse sont :</p>
+
+<ul>
+    <li><strong>NICE</strong></li>
+
+    <li><strong>LILLE-LESQUIN</strong></li>
+
+    <li><strong>NANTES-BOUGUENAIS</strong></li>
+
+    <li><strong>MILLAU</strong></li>
+
+    <li><strong>DIJON-LONGVIC</strong></li>
+</ul>
+
+<p>Le choix de ces 5 villes permet de mieux représenter l'ensemble du territoire français, <br><strong>4 de ces villes étant localisées chacune dans une zone principale différente et qui lui est propre.</strong>
+    <br><strong>Le choix de Millau, cependant, est motivé par le fait que cette ville est une ZRR. Cela nous permettra de plus facilement traiter la question 3.</strong>
+    <br>Le choix de la ville de NICE est quand à lui motivé par la proximité de sa localisation et l'Université de Nice-Sophia Antipolis. </p>
+
+<blockquote>
+    <blockquote>
+        <blockquote>
+            <h4>3.1.2 "Allègement" du jeu de données contenant uniquement les villes choisies</h4>
+        </blockquote>
+    </blockquote>
+</blockquote>
+
+<p>À partir du jeu de données original, les enregistrements des 5 villes choisies sont filtrés et enregistrés dans un nouveau jeu de données "allégé".
+    <br>Le but étant d'éviter de re-parcourir et re-calculer l'ensemble du jeu de données original dans lequel désormais un faible taux d'enregistrements est utile (8.7%).</p>
+
+<blockquote>
+    <blockquote>
+        <blockquote>
+            <h4>3.1.3 Sélection des colonnes voulues</h4>
+        </blockquote>
+    </blockquote>
+</blockquote>
+
+<p>Comme l'étape précédente, le principe est d'alléger le jeu de données contenant originellement 64 colonnes, en ne gardant que les colonnes pertinantes définies dans la section 2.2 :</p>
+
+<ul>
+    <li><strong>Date</strong>,</li>
+
+    <li><strong>Température minimale sur 12 heures</strong>,</li>
+
+    <li><strong>Température maximale sur 12 heures</strong>,</li>
+
+    <li><strong>Nom</strong>.</li>
+</ul>
+
+<blockquote>
+    <blockquote>
+        <blockquote>
+            <h4>3.1.4 Découpage du jeu de données désormais "allégé" pour chaque plage annuelle</h4>
+        </blockquote>
+    </blockquote>
+</blockquote>
+
+<p>Puisque l'objectif est de vérifier des changements de températures :</p>
+
+<ul>
+    <li>entre <em>avant 2019</em> et <em>2019</em></li>
+
+    <li>entre <em>2019</em> et <em>avant 2015</em></li>
+</ul>
+
+<p>un découpage pour les plages d'années [2010;2014],[2010;2019] sont effectuées, ainsi que les enregistrements de l'année [2019] seulement.</p>
+
+<blockquote>
+    <blockquote>
+        <blockquote>
+            <h4>3.1.5 Isolement des données pour chaque ville pour chaque plage d'années</h4>
+        </blockquote>
+    </blockquote>
+</blockquote>
+
+<p>Les enregistrements désormais ségmentés sont triés dans un dataframe lui correspondant en fonction de sa ville et de sa plage d'années.
+    <br>Puisque l'échantillon est composé de 5 villes dans lequels 3 plages d'années sont examinées, 15 dataframes sont déclarés facilitant grandement l'étape <em>statistiques et vérifications d'hypothèses</em> en permettant d'appliquer facilement et de façon distincte les calculs statistiques.</p>
+
+<blockquote>
+    <blockquote>
+        <h3>3.2 Statistiques et hypothèses</h3>
+    </blockquote>
+</blockquote>
+
+<p>Pour chaque ville et chaque année entre 2010 et 2019, les moyennes des températures minimales et maximales sur 12h sont calculées.
+    <br>L'assignation de la valeur booléenne TRUE dans le paramètre na.rm de la fonction mean() permet d'ignorer les données vides. </p>
+
+<blockquote>
+    <blockquote>
+        <h3>3.3 Génération des graphiques</h3>
+    </blockquote>
+</blockquote>
+
+<p>Afin de répondre au sujet, deux graphiques sont générés :</p>
+
+<ul>
+    <li>le premier affichera les données de 2010 à 2018 et 2019</li>
+
+    <li>le deuxième affichera les données de 2010 à 2015 et 2019</li>
+</ul>
+
+<p>Pour ces deux graphiques :</p>
+
+<p>La légende  sera composé de :</p>
+
+<ul>
+    <li>L'axe X (abscisse) représente une dimension temporelle exprimée en années depuis J-C.</li>
+
+    <li>L'axe Y (ordonnée) représente la moyenne de température minimale exprimée en degrès
+        <br><em>(conversion de Kelvin à degrés Celsius selon la formule mathématique degrés ℃ = Kelvin - 273.15)</em></li>
+</ul>
+
+<p>Une courbe d'évolution est générée individuellement pour chaque ville avec un code couleur afin de bien les différencier :</p>
+
+<ul>
+    <li>Millau : noir</li>
+
+    <li>Nice : rouge</li>
+
+    <li>Lille : vert</li>
+
+    <li>Nantes : bleu foncé</li>
+
+    <li>Dijeu : bleu clair</li>
+</ul>
+
+<blockquote>
+    <h2>4 Résultats obtenus</h2>
+    <img src="assets/temp-avant-2019.png">
+    <img src="assets/temp-2014-2019.png">
+    <img src="assets/temp-minimale-avant-2019.png">
+    <img src="assets/temp-max-avant-2019.png">
+    <img src="assets/ecart-type.png">
+    <h2>5 Présentation de groupe et rôles dans le projet</h2>
+</blockquote>
+
+<p>Ce groupe n°15 est composé de 3 étudiants alternants :</p>
+
+<ul>
+    <li><p>Jérémy CHOISY :
+        <br>Programmation de la partie "pre-traitement"
+        <br>Rédaction du rapport final</p></li>
+
+    <li><p>André DA SILVA GONCALVES :
+        <br>Programmation d'une partie de la partie "pre-traitement"
+        <br>Programmation d'une partie de la partie "vérifications d'hypothèses et graphique"
+        <br>Rédaction du support de présentation</p></li>
+
+    <li><p>Maxime SOUMRANY :
+        <br>Programmation initial de la partie "pre-traitement"
+        <br>Programmation d'une partie de la partie "statistiques et hypothèses"</p></li>
+</ul>
