@@ -35,6 +35,8 @@ const restaurantSchema = new mongoose.Schema({
     menu: {type: [dish]}
 });
 
+restaurantSchema.index({name: 1});
+
 module.exports = {
     restaurant: mongoose.model('Restaurant', restaurantSchema),
     dish: dish,
