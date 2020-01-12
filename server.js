@@ -6,7 +6,6 @@ const passport = require('passport');
 const morgan = require('morgan');
 const fs = require('fs');
 const https = require('https');
-const cors = require('cors');
 
 // Bootstrap models
 require('./app/Cart/model');
@@ -22,25 +21,15 @@ mongoose.set('useFindAndModify', false);
 const server = express();
 const port = 5000;
 
-const corsOptions = {
-    origin: '*',
-    optionsSuccessStatus: 200
-};
-
-
-
 server.use(bodyParser.urlencoded({extended: false}));
 server.use(bodyParser.json());
 server.use(morgan("dev"));
 server.use(passport.initialize());
-server.use(cors(corsOptions));
-server.options('*', cors());
 
 
 server.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
     next();
 });
 
