@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const dish = new mongoose.Schema({
     name: {type: String},
     type: {type: String, enum: ['starter','main_course','dessert']},
-    description: {type: String},
+    ingredients: {type: [String]},
     price: {type: Number},
     picture: {type: String}
 });
@@ -11,9 +11,9 @@ const dish = new mongoose.Schema({
 const menu = new mongoose.Schema({
     name: {type: String},
     price: {type: Number},
-    starter: {type: [dish]},
-    main_course: {type: [dish]},
-    dessert: {type: [dish]}
+    starters: {type: [dish]},
+    main_courses: {type: [dish]},
+    desserts: {type: [dish]}
 });
 
 const restaurantSchema = new mongoose.Schema({
@@ -29,7 +29,6 @@ const restaurantSchema = new mongoose.Schema({
         }},
     grades: {type: [{
             date: {type: Date, default: Date.now},
-            grade: {type: String},
             score: {type: Number}
         }]},
     menus: {type: [menu]},

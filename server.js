@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const mongoDBConfig = require('./config/db').mongoDBConfig;
 const passport = require('passport');
 const morgan = require('morgan');
-
+const fs = require('fs');
+const https = require('https');
 
 // Bootstrap models
 require('./app/Cart/model');
@@ -36,7 +37,6 @@ server.use(function (req, res, next) {
 
 server.use('/restaurant-pictures', express.static(__dirname + '/public/pictures/restaurant-pictures'));
 server.use('/dish-pictures', express.static(__dirname + '/public/pictures/dish-pictures'));
-server.use('/r-project', express.static(__dirname + '/public/r-project'));
 
 mongoose.Promise = global.Promise;
  mongoose.connect(mongoDBConfig.url, {
@@ -57,6 +57,10 @@ server.use((req,res)=> {
     res.sendStatus(404);
 });
 
-server.listen(port, () => {
-    console.log("Server is running and listening on port " + port);
-});
+https.createServer({
+    key: fs.readFileSync('./config/server.key'),
+    cert: fs.readFileSync('./config/server.cert')
+}, server)
+    .listen(port, () => {
+        console.log("Server is running and listening on port " + port);
+    });
