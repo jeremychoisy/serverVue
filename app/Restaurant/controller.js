@@ -291,24 +291,11 @@ exports.deleteRestaurantById = async (req, res) => {
         if(restaurant.picture) {
             fileHelper.deleteFile(restaurant.picture, 'restaurant-pictures');
         }
-        restaurant.menu.forEach((dish) => {
-            if(dish.picture) {
-                fileHelper.deleteFile(dish.picture, 'dish-pictures');
-            }
-        });
-        restaurant.menus.forEach((menu) => {
-            const allDishes = menu.starter.concat(menu.main_course, menu.dessert);
-            allDishes.forEach((dish) => {
-                if(dish.picture) {
-                    fileHelper.deleteFile(dish.picture, 'dish-pictures');
-                }
-            });
-        });
 
         // Delete the restaurant document
-        restaurant.delete();
+        await restaurant.delete();
         res.status(200).json({
-            status: 'success',
+            message: 'success',
         });
     } catch ( err ){
         res.status(500).json({
@@ -319,14 +306,6 @@ exports.deleteRestaurantById = async (req, res) => {
 
 exports.resetGlobalMenuById = async (req, res) => {
     try {
-        // Delete all the pictures of the dishes
-        const restaurant = await Restaurant.findOne({_id: req.params.id});
-        restaurant.menu.forEach((dish) => {
-            if(dish.picture) {
-                fileHelper.deleteFile(dish.picture, 'dish-pictures');
-            }
-        });
-
         // Update the restaurant object by deleting the menu
         const updatedRestaurant = await Restaurant.findByIdAndUpdate(req.params.id, {$set: {menu: []}},{new: true});
         res.status(200).json({
@@ -341,16 +320,6 @@ exports.resetGlobalMenuById = async (req, res) => {
 
 exports.deleteMenuById = async (req, res) => {
     try {
-        // Delete all the pictures of the dishes
-        const restaurant = await Restaurant.findOne({_id: req.params.id});
-        const menu = restaurant.menus.filter((menu) => menu._id.toString() === req.params.menu).pop();
-        const allDishes = menu.starter.concat(menu.main_course, menu.dessert);
-        allDishes.forEach((dish) => {
-            if(dish.picture) {
-                fileHelper.deleteFile(dish.picture, 'dish-pictures');
-            }
-        });
-
         // Update the restaurant object by deleting the menu
         const updatedRestaurant = await Restaurant.findByIdAndUpdate(req.params.id, {$pull: {menus: {_id: req.params.menu}}},{new: true});
         res.status(200).json({
@@ -365,13 +334,6 @@ exports.deleteMenuById = async (req, res) => {
 
 exports.deleteDishFromGlobalMenuById = async (req, res) => {
     try {
-        // Delete the picture of the dish
-        const restaurant = await Restaurant.findOne({_id: req.params.id});
-        const dish = restaurant.menu.filter((dish) => dish._id.toString() === req.params.dish).pop();
-        if(dish.picture) {
-            fileHelper.deleteFile(dish.picture, 'dish-pictures');
-        }
-
         // Update the restaurant object by deleting the dish from the global menu
         const updatedRestaurant = await Restaurant.findByIdAndUpdate(req.params.id, {$pull: {menu: {_id: req.params.dish}}},{new: true});
         res.status(200).json({
@@ -386,14 +348,6 @@ exports.deleteDishFromGlobalMenuById = async (req, res) => {
 
 exports.deleteDishFromSpecificMenuById = async (req, res) => {
     try {
-        // Delete the picture of the dish
-        const restaurant = await Restaurant.findOne({_id: req.params.id});
-        const menu = restaurant.menus.filter((menu) => menu._id.toString() === req.params.menu).pop();
-        const dish = menu[req.params.type].filter((dish) => dish._id.toString() === req.params.dish).pop();
-        if(dish.picture) {
-            fileHelper.deleteFile(dish.picture, 'dish-pictures');
-        }
-
         // Update the restaurant object by deleting the dish from the specific menu
         const update = {};
         update['menus.$.' + req.params.type] = { _id: req.params.dish};
